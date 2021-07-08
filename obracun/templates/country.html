@@ -1,0 +1,124 @@
+{% extends 'base.html'%}
+{% load static %}
+
+	
+{% block title %}
+  Naslov
+{% endblock %}
+{% block main %}
+
+{% csrf_token %}
+
+<div style="height: 50px">
+  
+</div>
+<div id="table_container">
+  
+    <div id="list_country">
+    </div>
+  
+    <script>
+        $(document).ready(function () {
+
+            $("#list_country").kendoGrid({
+                columns: [
+                  {
+                    field: "country_name",
+                    title: "Naziv države",
+                    filterable: true
+                  },
+                  { 
+                    command: ["edit"], 
+                    title: "&nbsp;",
+                    width: "100px"
+                  },
+                  { 
+                    command: ["destroy"], 
+                    title: "&nbsp;",
+                    width: "130px"
+                  },
+                  // {
+                  //   command: { text: "Uredi", click: "{% for country in countries %}<a href='{% url 'edit_country' pk=country.id%}'' title='Uredi'></a>{% endfor %}" }, 
+                  //   title: "Uredi", 
+                  //   width: "180px" 
+                  // },
+                  // { command: { text: "Uredi", click: 'add_country' }, title: " ", width: "180px" }
+                  ],
+
+                dataSource: {
+                    type: "odata",
+                    transport: {
+                        read: {
+                              url: 'list_country',
+                              contentType: 'application/json; charset=utf-8',
+                              type: 'GET',
+                              dataType: 'json'
+                            },
+                        update: {
+                            url: function (country) {
+                                return "country.id";
+                            },
+                            type: "POST",
+                        },
+                        create: {
+                            url: function (country) {
+                                delete country.id;
+                                return "add_country";
+                              },
+                            type: "POST",
+                        },
+                    },
+                    schema: {
+                        data: function (data) {
+                          return data;
+                        },
+                        total: function (data) {
+                          return data['odata.count'];
+                        },
+                        model: {
+                          id: "id",
+                          fields: {
+                            id: {editable: false},
+                            country_name: { type: "string" }
+                          }
+                        }
+                      }
+                  },
+                  
+                  toolbar: ["create","search"],
+                  filterable: true,
+                  sortable: true,
+                  pageable:{
+                      pageSize:15,
+                      refresh:true,
+                      pageSizes:true,
+                      buttonCount:10,
+                    },
+                  editable: "popup",
+                  height:650
+
+            });
+            // $("#textButton").kendoButton();
+            
+        });
+    </script>
+</div>
+
+<style type="text/css">
+
+    .country-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+
+    .k-grid .k-grid-search {
+        margin-left: auto;
+        margin-right: 0;
+    }
+</style>
+
+	
+
+{% endblock %}

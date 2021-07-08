@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block main %}
+
+<div align="center">
+  <a href="{% url 'add_country' %}" title="Dodaj drzavu" class="btn btn-info">Dodaj drzavu</a>
+</div>
+
+<table id="table" class="display" style="width:100%">
+        <thead>
+        <tr>
+          <th>Naziv
+          </th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+        <tbody>
+      {% for country in countries %}
+        <tr>
+          <td>{{ country.country_name }}</td>
+          <td><a href="{% url 'edit_country' pk=country.id %}" class="btn btn-warning">&#x270D; Uredi</a></td>
+          <td><a href="{% url 'delete_country' pk=country.id %}" class="btn btn-danger">Brisi</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Naziv</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </tfoot>
+     
+    </table>
+
+
+
+
+
+
+
+  <!--<ul class="pagination">
+  	{% if countries.has_previous %}
+  		<li class="page-item">
+	      <a href="?page=1" class="page-link">&#x276E; &#x276E; &#x276E; &#x261A;  Prvi</a>
+	    </li>
+	    <li class="page-item">
+	      <a href="?page={{ countries.previous_page_number }}" class="page-link">&#x276E; &#x261C;Prethodni</a>
+	    </li>
+    {% else %}
+   		<li class="page-item disabled">
+	      <span class="page-link">Prvi</span>
+	    </li>
+	    <li class="page-item disabled">
+	      <span class="page-link">Prethodni</span>
+	    </li>
+	{% endif %}
+	{% for i in page_range %}
+	{% if countries.number == i %}
+    	<li class="page-item active"><span class="page-link">{{i}}</span></li>
+    {% else %}
+	    <li class="page-item" aria-current="page">
+	      <span class="page-link"><a class="disabled" href="?page={{ i }}">{{ i }}</a></span>
+	    </li>
+	{% endif %}
+	{% endfor %}
+	{% if countries.has_next %}
+    	<li class="page-item">
+    	<a href="?page={{ countries.next_page_number }}" class="page-link">Sljedeci &#x261E; &#x276F;</a>
+	    </li>
+	    <li class="page-item">
+    	<a href="?page={{ countries.paginator.num_pages }}" class="page-link">Poslednji &#x261B; &#x276F; &#x276F; &#x276F; </a>
+	    </li>
+    {% else %}
+    	<li class="page-item disabled">
+	      <span class="page-link">Sljedeci</span>
+	    </li>
+	    <li class="page-item disabled">
+	      <span class="page-link">Poslednji</span>
+	    </li>
+    {% endif %}
+  </ul>-->
+
+{% endblock main %}
+
+
