@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import CountryForm, CountryEntityForm
-from .models import Country, CountryEntity
+from .forms import CountryForm, CountryEntityForm, MunicipalityForm
+from .models import Country, CountryEntity, Contract, Canton, Municipality
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, JsonResponse
 import json
@@ -8,133 +8,152 @@ from django.core import serializers
 from plate.utils import render_to_pdf
 from django.views.generic import View
 from django.contrib import messages
+import datetime
+from django.core.paginator import Paginator
 
+from django.utils import timezone
+from django.urls import reverse_lazy
+from django.views.generic.list import ListView
+from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 def base(request):
 	return render(request, 'base.html')
 
+def test(request):
+	return render(request, 'test.html')
+
+
 # =====//--COUNTRY--\\=====
 
-def country(request):
-	return render(request, 'country.html')
 
-def add_country(request):
-	form = CountryForm(request.POST)
-	if form.is_valid():
-		form.save()
-		form = CountryForm()
-		return redirect('list_country')
-	context = {
-		'form': form
-	}
-	return render(request, 'add_country.html', context)
+class CountryAdd(CreateView):
+	model = Country
+	fields = ['country_name']
+	template_name = 'add_form.html'
+	form_class = CountryForm
 
-def list_country (request):
+class CountryList(ListView):
 
-	countries_list = []
- 
-	for country in Country.objects.all().order_by('country_name'):
-		countries_list.append({'country_name': country.country_name})
+	model = Country
+	# paginate_by = 50
+	context_object_name = 'countries'
+	queryset = Country.objects.all()
+	template_name = 'list_country.html'  
 
-	data = json.dumps(countries_list)
-	return HttpResponse(data)
+class CountryDetail(DetailView):
+	model = Country
+	template_name = 'country_details.html'
+	context_object_name = 'country'
+	slug_field = 'id'
 
+class CountryEdit(UpdateView):
+	model = Country
+	fields = ['country_name']
+	template_name = 'add_form.html'
 
-def edit_country(request, pk):
-	template_name = 'cepy/add_country_form.html'
-	countries = Country.objects.get(id=pk)
-	form = CountryForm(instance=countries)
-	if request.method == 'POST':
-		form = CountryForm(request.POST, instance=countries)
-		if form.is_valid():
-			form.save()
-			messages.success(request, "Odlicno")
-			return redirect('/country')
-		else:
-			messages.error(request, "Ovo je greska sve joj jebem")
-	context = {
-		"form": form
-	}
-	return render(request, "add_country.html", context)
-
-def delete_country (request, pk):
-	countries = Country.objects.get(id=pk)
-		
-	if request.method == 'POST':
-		countries.delete()
-		return redirect('/list_country')
-
-	context = {
-		'countries': countries
-		}
-	return render(request, "delete.html", context)
+class CountryDelete(DeleteView):
+	model = Country
+	success_url = reverse_lazy('list_country')
+	template_name = 'delete.html'
 
 
-
-def add_countryentity(request):
-	form = CountryForm(request.POST)
-	if form.is_valid():
-		form.save()
-		form = CountryForm()
-		return redirect('list_country')
-	context = {
-		'form': form
-	}
-	return render(request, 'add_country.html', context)
-
-def list_countryentity (request):
-	countries_list = CountryEntity.objects.all()
-	page = request.GET.get('page', 1)
-
-	paginator = Paginator(countries_list, 10)
-	try:
-		countries = paginator.page(page)
-	except PageNotAnInteger:
-		countries = paginator.page(1)
-	except EmptyPage:
-		countries = paginator.page(paginator.num_pages)
-
-	index = countries.number - 1  
-	max_index = len(paginator.page_range)
-	start_index = index - 3 if index >= 3 else 0
-	end_index = index + 3 if index <= max_index - 3 else max_index
-	page_range = list(paginator.page_range)[start_index:end_index]
+# =====//--COUNTRY-ENTITIY--\\=====
 
 
-	context = {
-		'countries': countries,
-		'page_range': page_range
-	}
-	return render (request, 'list_country.html', context)
+class CountryEntityAdd(CreateView):
+	model = CountryEntity
+	fields = ['entity_name']
+	template_name = 'add_form.html'
 
-def edit_countryentity(request, pk):
-	template_name = 'cepy/add_country_form.html'
-	country = Country.objects.get(id=pk)
-	form = CountryForm(instance=country)
-	if request.method == 'POST':
-		form = CountryForm(request.POST, instance=country)
-		if form.is_valid():
-			form.save()
-			messages.success(request, "Odlicno")
-			return redirect('/list_country')
-		else:
-			messages.error(request, "Ovo je greska sve joj jebem")
-	context = {
-		"form": form
-	}
-	return render(request, "add_country.html", context)
+class CountryEntityList(ListView):
 
-def delete_countryentity (request, pk):
-	countries = Country.objects.get(id=pk)
-		
-	if request.method == 'POST':
-		countries.delete()
-		return redirect('/list_country')
+	model = CountryEntity
+	context_object_name = 'entities'
+	queryset = CountryEntity.objects.all()
+	template_name = 'list_countryentity.html'  
 
-	context = {
-		'countries': countries
-		}
-	return render(request, "delete.html", context)
+class CountryEntityDetail(DetailView):
+	model = CountryEntity
+	template_name = 'countryentity_detail.html'
+	context_object_name = 'entities'
+	slug_field = 'id'
+
+class CountryEntityEdit(UpdateView):
+	model = CountryEntity
+	fields = ['entity_name']
+	template_name = 'add_form.html'
+
+class CountryEntityDelete(DeleteView):
+	model = CountryEntity
+	success_url = reverse_lazy('list_countryentity')
+	template_name = 'delete.html'
+
+# =====//--CANTON--\\=====
+
+
+class CantonAdd(CreateView):
+	model = Canton
+	fields = ['canton_name']
+	template_name = 'add_form.html'
+
+class CantonList(ListView):
+
+	model = Canton
+	context_object_name = 'cantons'
+	queryset = Canton.objects.all()
+	template_name = 'list_canton.html'  
+
+class CantonDetail(DetailView):
+	model = Canton
+	template_name = 'canton_detail.html'
+	context_object_name = 'cantons'
+	slug_field = 'id'
+
+class CantonEdit(UpdateView):
+	model = Canton
+	fields = ['canton_name']
+	template_name = 'add_form.html'
+
+class CantonDelete(DeleteView):
+	model = Canton
+	success_url = reverse_lazy('list_countryentity')
+	template_name = 'delete.html'
+
+
+# =====//--CANTON--\\=====
+
+
+class MunicipalityAdd(CreateView):
+	model = Municipality
+	# nije dozvoljeno koristenje fields i forms_class, jer je u koviru form_class vec izdefinisan fields
+	# fields = ['municipality_name', 'municipality_code', 'country_entity', 'country', 'canton']
+	template_name = 'add_form.html'
+	form_class = MunicipalityForm
+
+class MunicipalityList(ListView):
+
+	model = Municipality
+	context_object_name = 'municipalities'
+	queryset = Municipality.objects.all()
+	template_name = 'list_municipality.html'  
+
+class MunicipalityDetail(DetailView):
+	model = Municipality
+	template_name = 'canton_detail.html'
+	context_object_name = 'cantons'
+	slug_field = 'id'
+
+class MunicipalityEdit(UpdateView):
+	model = Municipality
+	fields = ['municipality_name', 'municipality_code', 'country_entity', 'country', 'canton']
+	template_name = 'add_form.html'
+
+class MunicipalityDelete(DeleteView):
+	model = Municipality
+	success_url = reverse_lazy('list_municipality')
+	template_name = 'delete.html'
+
 
 # =====//--PDF reports--\\==== 
 

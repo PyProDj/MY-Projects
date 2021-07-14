@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block modals %}
+
+{% endblock %}
+
+{% block main %}
+	
+
+<div align="center">
+  <a href="{% url 'add_municipality' %}" title="Dodaj drzavu" class="btn btn-info">Dodaj opstinu</a>
+</div>
+
+<table id="table" class="display" style="width:100%">
+        <thead>
+        <tr>
+          <th>Naziv opstine</th>
+          <th>Sifra opstine</th>
+          <th>Drzava</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+        <tbody>
+      {% for municipality in municipalities %}
+        <tr>
+          <td><a href="{% url 'detail_countryentity' pk=municipality.id %}">{{ municipality.municipality_name }}</a></td>
+          <td>{{ municipality.municipality_code }}</td>
+          <td>{{ municipality.country }}</td>
+          <td>{{ municipality.canton }}</td>
+          <td><a href="{% url 'edit_municipality' pk=municipality.id %}" class="btn btn-warning">&#x270D; Uredi</a></td>
+          <td><a href="{% url 'delete_municipality' pk=municipality.id %}" class="btn btn-danger"> Brisi</a></td>
+        </tr>
+
+
+      {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </tfoot>
+     
+    </table>
+
+
+{% endblock main %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block modals %}
+
+{% endblock %}
+
+{% block main %}
+	
+
+<div align="center">
+  <a href="{% url 'add_canton' %}" title="Dodaj drzavu" class="btn btn-info">Dodaj drzavu</a>
+</div>
+
+<table id="table" class="display" style="width:100%">
+        <thead>
+        <tr>
+          <th>Naziv
+          </th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+        <tbody>
+      {% for canton in cantons %}
+        <tr>
+          <td><a href="{% url 'detail_canton' pk=canton.id %}">{{ canton.canton_name }}</a></td>
+          <td></td>
+          <td><a href="{% url 'edit_canton' pk=canton.id %}" class="btn btn-warning">&#x270D; Uredi</a></td>
+          <td><a href="{% url 'delete_canton' pk=canton.id %}" class="btn btn-danger"> Brisi</a></td>
+        </tr>
+
+
+      {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Naziv</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </tfoot>
+     
+    </table>
+
+{% endblock main %}
+
+

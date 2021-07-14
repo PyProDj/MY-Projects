@@ -27,22 +27,22 @@
                     title: "Naziv države",
                     filterable: true
                   },
-                  { 
-                    command: ["edit"], 
-                    title: "&nbsp;",
-                    width: "100px"
-                  },
-                  { 
-                    command: ["destroy"], 
-                    title: "&nbsp;",
-                    width: "130px"
-                  },
+                  // { 
+                  //   command: ["edit"], 
+                  //   title: "&nbsp;",
+                  //   width: "100px"
+                  // },
+                  // { 
+                  //   command: ["destroy"], 
+                  //   title: "&nbsp;",
+                  //   width: "130px"
+                  // },
                   // {
                   //   command: { text: "Uredi", click: "{% for country in countries %}<a href='{% url 'edit_country' pk=country.id%}'' title='Uredi'></a>{% endfor %}" }, 
                   //   title: "Uredi", 
                   //   width: "180px" 
                   // },
-                  // { command: { text: "Uredi", click: 'add_country' }, title: " ", width: "180px" }
+                  { command: { text: "Uredi", url: 'base' }, title: " ", width: "180px" }
                   ],
 
                 dataSource: {

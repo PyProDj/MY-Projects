@@ -15,7 +15,7 @@
                   
                 </li>
                 <li class="has-subnav">
-                    <a href="{% url 'country' %}">
+                    <a href="{% url 'list_country' %}">
                         <i class="fa fa-laptop fa-2x"></i>
                         <span class="nav-text">
                             Drzave
@@ -24,28 +24,28 @@
                     
                 </li>
                 <li class="has-subnav">
-                    <a href="#">
+                    <a href="{% url 'list_countryentity' %}">
                        <i class="fa fa-list fa-2x"></i>
                         <span class="nav-text">
-                            Forms
+                            Entiteti
                         </span>
                     </a>
                     
                 </li>
                 <li class="has-subnav">
-                    <a href="#">
+                    <a href="{% url 'list_canton' %}">
                        <i class="fa fa-folder-open fa-2x"></i>
                         <span class="nav-text">
-                            Pages
+                            Kantoni
                         </span>
                     </a>
                    
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{% url 'list_municipality' %}">
                         <i class="fa fa-bar-chart-o fa-2x"></i>
                         <span class="nav-text">
-                            Graphs and Statistics
+                            Opstine
                         </span>
                     </a>
                 </li>
