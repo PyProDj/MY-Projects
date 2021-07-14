@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% load static %}
+
+
+{% block main %}
+
+<h1>Country</h1>
+            <ul>
+            {% for country in countries %}
+                <li>{{ country.country_name }}</li>
+            {% empty %}
+                <li>Nema drzave</li>
+            {% endfor %}
+            </ul>
+
+
+{% endblock main %}

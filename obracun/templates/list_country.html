@@ -2,7 +2,12 @@
 
 {% load static %}
 
+{% block modals %}
+
+{% endblock %}
+
 {% block main %}
+	
 
 <div align="center">
   <a href="{% url 'add_country' %}" title="Dodaj drzavu" class="btn btn-info">Dodaj drzavu</a>
@@ -20,10 +25,13 @@
         <tbody>
       {% for country in countries %}
         <tr>
-          <td>{{ country.country_name }}</td>
+          <td><a href="{% url 'detail_country' pk=country.id %}">{{ country.country_name }}</a></td>
+          <td></td>
           <td><a href="{% url 'edit_country' pk=country.id %}" class="btn btn-warning">&#x270D; Uredi</a></td>
-          <td><a href="{% url 'delete_country' pk=country.id %}" class="btn btn-danger">Brisi</a></td>
+          <td><a href="{% url 'delete_country' pk=country.id %}" class="btn btn-danger"> Brisi</a></td>
         </tr>
+
+
       {% endfor %}
       </tbody>
       <tfoot>
@@ -39,10 +47,7 @@
 
 
 
-
-
-
-  <!--<ul class="pagination">
+<ul class="pagination">
   	{% if countries.has_previous %}
   		<li class="page-item">
 	      <a href="?page=1" class="page-link">&#x276E; &#x276E; &#x276E; &#x261A;  Prvi</a>
@@ -82,7 +87,7 @@
 	      <span class="page-link">Poslednji</span>
 	    </li>
     {% endif %}
-  </ul>-->
+  </ul>
 
 {% endblock main %}
 
