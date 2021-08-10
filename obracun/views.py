@@ -1,20 +1,19 @@
 from django.shortcuts import render, redirect
-from .forms import CountryForm, CountryEntityForm, MunicipalityForm
-from .models import Country, CountryEntity, Contract, Canton, Municipality
+from .forms import CountryForm, CountryEntityForm, MunicipalityForm, EmployeeForm, ContractTypeForm, ContractDurationForm, ContractForm, ContractAnnexForm
+from .models import Country, CountryEntity, Contract, Canton, Municipality, Employee, Contract_type, Contract_duration, Contract,Contract_annex
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, JsonResponse
 import json
 from django.core import serializers
 from plate.utils import render_to_pdf
-from django.views.generic import View
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 import datetime
-from django.core.paginator import Paginator
 
 from django.utils import timezone
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
-from django.views.generic import DetailView
+from django.views.generic import DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 def base(request):
@@ -29,7 +28,6 @@ def test(request):
 
 class CountryAdd(CreateView):
 	model = Country
-	fields = ['country_name']
 	template_name = 'add_form.html'
 	form_class = CountryForm
 
@@ -63,7 +61,7 @@ class CountryDelete(DeleteView):
 
 class CountryEntityAdd(CreateView):
 	model = CountryEntity
-	fields = ['entity_name']
+	form_class = CountryEntityForm
 	template_name = 'add_form.html'
 
 class CountryEntityList(ListView):
@@ -121,7 +119,7 @@ class CantonDelete(DeleteView):
 	template_name = 'delete.html'
 
 
-# =====//--CANTON--\\=====
+# =====//--Municipality--\\=====
 
 
 class MunicipalityAdd(CreateView):
@@ -140,8 +138,8 @@ class MunicipalityList(ListView):
 
 class MunicipalityDetail(DetailView):
 	model = Municipality
-	template_name = 'canton_detail.html'
-	context_object_name = 'cantons'
+	template_name = 'municipality_detail.html'
+	context_object_name = 'municipality'
 	slug_field = 'id'
 
 class MunicipalityEdit(UpdateView):
@@ -153,6 +151,138 @@ class MunicipalityDelete(DeleteView):
 	model = Municipality
 	success_url = reverse_lazy('list_municipality')
 	template_name = 'delete.html'
+
+
+# =====//--Employee--\\=====
+
+
+class EmployeeAdd(CreateView):
+	model = Employee
+	# fields = ['municipality_name', 'municipality_code', 'country_entity', 'country', 'canton']
+	template_name = 'add_form.html'
+	form_class = EmployeeForm
+
+class EmployeeList(ListView):
+
+	model = Employee
+	context_object_name = 'employees'
+	queryset = Employee.objects.all()
+	template_name = 'list_employee.html'  
+
+class EmployeeDetail(DetailView):
+	model = Employee
+	template_name = 'employee_detail.html'
+	context_object_name = 'employee'
+	slug_field = 'id'
+
+class EmployeeEdit(UpdateView):
+	model = Employee
+	fields = ['jmbg', 'first_name', 'last_name', 'parent_name', 'municipality', 'address', 'prof_qualification', 'educ_institution', 'prof_title', 'year_of_services', 'email']
+	template_name = 'add_form.html'
+
+class EmployeeDelete(DeleteView):
+	model = Employee
+	success_url = reverse_lazy('list_employee')
+	template_name = 'delete.html'
+
+
+# =====//--Coontract type--\\=====
+
+
+class ContractTypeAdd(CreateView):
+	model = Contract_type
+	# fields = ['municipality_name', 'municipality_code', 'country_entity', 'country', 'canton']
+	template_name = 'add_form.html'
+	form_class = ContractTypeForm
+
+class ContractTypeList(ListView):
+
+	model = Contract_type
+	context_object_name = 'contract_type'
+	queryset = Contract_type.objects.all()
+	template_name = 'list_contract_type.html'  
+
+class ContractTypeDetail(DetailView):
+	model = Contract_type
+	template_name = 'contract_type_detail.html'
+	context_object_name = 'contract_type'
+	slug_field = 'id'
+
+class ContractTypeEdit(UpdateView):
+	model = Contract_type
+	fields = ['contract_name', 'abbreviation', 'contribution_percent', 'taxe_percent', 'salary_account', 'contribution_account', 'taxe_account', 'solidarity_account', 'transport_account', 'food_account', 'cost_bruto_salary_account', 'cost_transport_account', 'cost_food_account']
+	template_name = 'add_form.html'
+
+class ContractTypeDelete(DeleteView):
+	model = Contract_type
+	success_url = reverse_lazy('list_contract_type')
+	template_name = 'delete.html'
+
+# =====//--Contract duration--\\=====
+
+
+class ContractDurationAdd(CreateView):
+	model = Contract_duration
+	template_name = 'add_form.html'
+	form_class = ContractDurationForm
+
+class ContractDurationList(ListView):
+
+	model = Contract_duration
+	context_object_name = 'contract_duration'
+	queryset = Contract_duration.objects.all()
+	template_name = 'list_contract_duration.html'  
+
+class ContractDurationEdit(UpdateView):
+	model = Contract_duration
+	fields = ['duration']
+	template_name = 'add_form.html'
+
+class ContractDurationDelete(DeleteView):
+	model = Contract_duration
+	success_url = reverse_lazy('list_contract_duration')
+	template_name = 'delete.html'
+
+# =====//--Contract--\\=====
+
+
+class ContractAdd(SuccessMessageMixin, CreateView):
+	model = Contract
+	# fields = ['municipality_name', 'municipality_code', 'country_entity', 'country', 'canton']
+	template_name = 'add_form.html'
+	form_class = ContractForm
+	success_message = 'Ugovor je uspješno dodat'
+	error_meesage = "Ugovor nije dodat! Pokušajte ponovo!"
+
+class ContractList(ListView):
+
+	model = Contract
+	context_object_name = 'contracts'
+	queryset = Contract.objects.all()
+	template_name = 'list_contract.html'  
+
+
+# =====//--Contract anex--\\=====
+
+
+
+class ContractAnnexAdd(SuccessMessageMixin, CreateView):
+	model = Contract_annex
+	# fields = ['municipality_name', 'municipality_code', 'country_entity', 'country', 'canton']
+	template_name = 'add_form.html'
+	form_class = ContractAnnexForm
+	success_message = 'Ugovor je uspješno dodat'
+	error_meesage = "Ugovor nije dodat! Pokušajte ponovo!"
+
+	def form_valid(self, form):
+		form.instance.contractid = request.POST.get('id')
+		return super(ContractAnnexAdd, self).form_valid(form)
+
+# def ContractAnnexAdd(request, contractid):
+# 	contract = Contract.objects.all(id=contractid)
+# 	form = ContractAnnexForm(instance=contract)
+	
+
 
 
 # =====//--PDF reports--\\==== 

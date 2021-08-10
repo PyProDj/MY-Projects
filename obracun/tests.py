@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+
 # prikazi koje sma koristio ali mi trenutno samo smetaju
 # ovjdje sam ih izmjestio da mi je views.py cistiji sa kodom 
 # def country(request):

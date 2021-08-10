@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
 {% block main %}
+
+<div class="container-md bg-secondary bg-gradient rounded-3 text-center col-6 border border-dark d-grid gap-2">
 <form method="post">
 	{% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Izmjeni">
+    <input type="submit" value="Izmjeni" class="btn btn-primary">
 </form>
+</div>
 {% endblock main %}

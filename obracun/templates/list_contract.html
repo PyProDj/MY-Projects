@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block modals %}
+
+{% endblock %}
+
+{% block main %}
+	
+
+<div class="d-grid gap-1 col-6 mx-auto">
+  <a href="{% url 'add_contract' %}" class="btn btn-primary fw-bold">DODAJ TIP UGOVORA</a>
+</div>
+<div class="table-responsive mt-2">
+<table id="table" class="table table-primary table-striped table-hover" style="width:100%">
+        <thead>
+        <tr>
+          <th class="text-center align-middle">Tip ugovora</th>
+          <th class="text-center align-middle"></th>
+          <th class="text-center align-middle"></th>
+          <th class="text-center align-middle"></th>
+          <th class="text-center align-middle"></th>
+          <th class="text-center align-middle"></th>
+          <th class="text-center align-middle"></th>
+          <th class="text-center align-middle"></th>
+          <th class="text-center align-middle"></th>
+        </tr>
+      </thead>
+        <tbody>
+      {% for contract in contracts %}
+          <tr>
+            <td>{{ contract.contract_type }}</td>
+            <td>{{ contract.employee }}</td>
+            <td>{{ contract.contract_duration }}</td>
+            <td>{{ contract.contract_number }}</td>
+            <td>{{ contract.contract_date }}</td>
+            <td>{{ contract.start_work_date }}</td>
+            <td>{{ contract.end_work_date }}</td>
+            <td>{{ contract.salary }}</td>
+            <td><button class="btn-primary">Aneksiraj</button></td>
+          </tr>
+      {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </tfoot>
+     
+    </table>
+</div>
+
+{% endblock main %}

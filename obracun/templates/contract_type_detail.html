@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block main %}
+<div class="container-md bg-secondary bg-gradient rounded-3 text-center col-4 border border-dark">
+  <div class="row">
+    <div class="col align-self-center">
+  <form method="post">
+    {% csrf_token %}
+    <table>
+      <thead>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </thead>
+      <tbody>
+          <td>{{ contract_type.contract_name }}</td>
+          <td>{{ contract_type.abbreviation }}</td>
+          <td>{{ contract_type.contribution_percent }}</td>
+          <td>{{ contract_type.taxe_percent }}</td>
+          <td>{{ contract_type.salary_account }}</td>
+          <td>{{ contract_type.contribution_account }}</td>
+          <td>{{ contract_type.taxe_account }}</td>
+          <td>{{ contract_type.solidarity_account }}</td>
+          <td>{{ contract_type.transport_account }}</td>
+          <td>{{ contract_type.food_account }}</td>
+          <td>{{ contract_type.cost_bruto_salary_account }}</td>
+          <td>{{ contract_type.cost_transport_account }}</td>
+          <td>{{ contract_type.cost_food_account }}</td>
+      </tbody>
+    </table>
+    <a href="{% url 'list_contract_type' %}" class="btn btn-primary">Povratak</a>
+  </form>
+    </div>
+  </div>
+
+</div>
+{% endblock main %}

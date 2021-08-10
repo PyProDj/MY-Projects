@@ -9,24 +9,25 @@
 {% block main %}
 	
 
-<div align="center">
-  <a href="{% url 'add_municipality' %}" title="Dodaj drzavu" class="btn btn-info">Dodaj opstinu</a>
+<div class="d-grid gap-1 col-6 mx-auto">
+  <a href="{% url 'add_municipality' %}" class="btn btn-primary fw-bold">Dodaj opstinu</a>
 </div>
-
-<table id="table" class="display" style="width:100%">
+<div class="table-responsive mt-2">
+<table id="table" class="table table-primary table-striped table-hover">
         <thead>
         <tr>
-          <th>Naziv opstine</th>
-          <th>Sifra opstine</th>
-          <th>Drzava</th>
-          <th></th>
+          <th class="text-center align-middle">Naziv opstine</th>
+          <th class="text-center align-middle">Sifra opstine</th>
+          <th class="text-center align-middle">Drzava</th>
+          <th class="text-center align-middle"></th>
+          <th class="text-center align-middle"></th>
           <th></th>
         </tr>
       </thead>
         <tbody>
       {% for municipality in municipalities %}
         <tr>
-          <td><a href="{% url 'detail_countryentity' pk=municipality.id %}">{{ municipality.municipality_name }}</a></td>
+          <td><a href="{% url 'detail_municipality' pk=municipality.id %}">{{ municipality.municipality_name }}</a></td>
           <td>{{ municipality.municipality_code }}</td>
           <td>{{ municipality.country }}</td>
           <td>{{ municipality.canton }}</td>
@@ -42,10 +43,13 @@
           <th></th>
           <th></th>
           <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
         </tr>
       </tfoot>
      
     </table>
-
+</div>
 
 {% endblock main %}
