@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block modals %}
+
+{% endblock %}
+
+{% block main %}
+	
+
+<div class="d-grid gap-1 col-6 mx-auto">
+  <a href="{% url 'add_employee' %}" class="btn btn-info">Dodaj radnika</a>
+</div>
+<div class="table-responsive mt-2">
+<table id="table" class="table table-primary table-striped table-hover">
+        <thead>
+        <tr>
+          <th class="text-center align-middle">JMBG</th>
+          <th class="text-center align-middle">Ime</th>
+          <th class="text-center align-middle">Prezime</th>
+          <th class="text-center align-middle">Ime roditelja</th>
+          <th class="text-center align-middle">Opština</th>
+          <th class="text-center align-middle">Adresa</th>
+          <th class="text-center align-middle">Stručna sprema</th>
+          <th class="text-center align-middle">Obrazovna institucija</th>
+          <th class="text-center align-middle">Profesionalno zvanje</th>
+          <th class="text-center align-middle">Godine radnog staža</th>
+          <th class="text-center align-middle">E-mail</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+        <tbody>
+      {% for employee in employees %}
+        <tr>
+          <td><a href="{% url 'detail_employee' pk=employee.id %}">{{ employee.jmbg }}</a></td>
+          <td>{{ employee.first_name }}</td>
+          <td>{{ employee.last_name }}</td>
+          <td>{{ employee.parent_name }}</td>
+          <td>{{ employee.municipality }}</td>
+          <td>{{ employee.address }}</td>
+          <td>{{ employee.prof_qualification}}</td>
+          <td>{{ employee.educ_institution }}</td>
+          <td>{{ employee.prof_title }}</td>
+          <td>{{ employee.year_of_services}}</td>
+          <td>{{ employee.email}}</td>
+
+          <td><a href="{% url 'edit_employee' pk=employee.id %}" class="btn btn-warning">&#x270D; Uredi</a></td>
+          <td><a href="{% url 'delete_employee' pk=employee.id %}" class="btn btn-danger"> Brisi</a></td>
+        </tr>
+
+
+      {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </tfoot>
+     
+    </table>
+
+
+{% endblock main %}

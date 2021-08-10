@@ -9,24 +9,22 @@
 {% block main %}
 	
 
-<div align="center">
-  <a href="{% url 'add_countryentity' %}" title="Dodaj drzavu" class="btn btn-info">Dodaj entitet</a>
+<div class="d-grid gap-1 col-6 mx-auto">
+  <a href="{% url 'add_countryentity' %}" class="btn btn-primary fw-bold">Dodaj entitet</a>
 </div>
-
-<table id="table" class="display" style="width:100%">
+<div class="table-responsive mt-2">
+<table id="table" class="table table-primary table-striped table-hover">
         <thead>
         <tr>
-          <th>Naziv entiteta
-          </th>
-          <th></th>
-          <th></th>
+          <th class="text-center align-middle">Naziv entiteta</th>
+          <th class="text-center align-middle"></th>
+          <th class="text-center align-middle"></th>
         </tr>
       </thead>
         <tbody>
       {% for entity in entities %}
         <tr>
           <td><a href="{% url 'detail_countryentity' pk=entity.id %}">{{ entity.entity_name }}</a></td>
-          <td></td>
           <td><a href="{% url 'edit_countryentity' pk=entity.id %}" class="btn btn-warning">&#x270D; Uredi</a></td>
           <td><a href="{% url 'delete_countryentity' pk=entity.id %}" class="btn btn-danger"> Brisi</a></td>
         </tr>
@@ -36,13 +34,13 @@
       </tbody>
       <tfoot>
         <tr>
-          <th>Naziv</th>
+          <th></th>
           <th></th>
           <th></th>
         </tr>
       </tfoot>
      
     </table>
-
+</div>
 
 {% endblock main %}

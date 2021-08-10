@@ -41,6 +41,40 @@ urlpatterns = [
     path('edit_municipality/<int:pk>/', views.MunicipalityEdit.as_view(), name='edit_municipality'),
     path('delete_municipality/<int:pk>/', views.MunicipalityDelete.as_view(), name='delete_municipality'),
 
+
+    # employee urls
+
+    path('add_employee', views.EmployeeAdd.as_view(), name='add_employee'),
+    path('list_employee', views.EmployeeList.as_view(), name='list_employee'),
+    path('detail_employee/<int:pk>/', views.EmployeeDetail.as_view(), name='detail_employee'),
+    path('edit_employee/<int:pk>/', views.EmployeeEdit.as_view(), name='edit_employee'),
+    path('delete_employee/<int:pk>/', views.EmployeeDelete.as_view(), name='delete_employee'),
+
+    # country type urls
+
+    path('add_contract_type', views.ContractTypeAdd.as_view(), name='add_contract_type'),
+    path('list_contract_type', views.ContractTypeList.as_view(), name='list_contract_type'),
+    path('detail_contract_type/<int:pk>/', views.ContractTypeDetail.as_view(), name='detail_contract_type'),
+    path('edit_contract_type/<int:pk>/', views.ContractTypeEdit.as_view(), name='edit_contract_type'),
+    path('delete_contract_type/<int:pk>/', views.ContractTypeDelete.as_view(), name='delete_contract_type'),
+
+    # country type urls
+
+    path('add_contract_duration', views.ContractDurationAdd.as_view(), name='add_contract_duration'),
+    path('list_contract_duration', views.ContractDurationList.as_view(), name='list_contract_duration'),
+    path('edit_contract_duration/<int:pk>/', views.ContractDurationEdit.as_view(), name='edit_contract_duration'),
+    path('delete_contract_duration/<int:pk>/', views.ContractDurationDelete.as_view(), name='delete_contract_duration'),
+
+    # country urls
+
+    path('add_contract', views.ContractAdd.as_view(), name='add_contract'),
+    path('list_contract', views.ContractList.as_view(), name='list_contract'),
+
+    # country annex urls
+
+    path('add_contractannex', views.ContractAnnexAdd.as_view(), name='add_contractannex'),
+    # path('list_contract', views.ContractList.as_view(), name='list_contract'),
+
     # report urls
 
     path('testreport', views.testreport, name='testreport'),       

@@ -4,6 +4,8 @@
 
 {% block main %}
 
+<div class="container-md bg-secondary bg-gradient rounded-3 text-center col-4 border border-dark d-block">
+
   <form method="post">
     {% csrf_token %}
     <table>
@@ -11,5 +13,5 @@
     </table>
     <a href="{% url 'list_canton' %}" class="btn btn-primary">Povratak</a>
   </form>
-
+</div>
 {% endblock main %}

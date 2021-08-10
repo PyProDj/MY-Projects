@@ -4,12 +4,22 @@
 
 {% block main %}
 
+<div class="container-md bg-form-card rounded-3 text-center col-4 border border-dark d-block">
   <form method="post">
     {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
-    <input type="submit" value="Submit">
+      {% for field in form %}
+      <div class="fw-bold mb-2 mt-2">
+        {{field.label_tag}}
+      </div>
+      <div>
+        {{field}}
+      </div>
+      {% endfor%}
+    <div class="col-6 mx-auto mt-3">
+      <input type="submit" value="Potvrdi" class="btn-costume text-black">
+    </div>
   </form>
+
+</div>
 
 {% endblock main %}

@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
 {% block main %}
-
+<div class="container-md bg-form-card rounded-3 text-center col-4 border border-dark d-block">
 	<form method="post">
 		{% csrf_token %}
 	    <p>Da li ste sigurni da zelite obrisati "{{ object }}"?</p>
-	    <input type="submit" value="Potvrdi">
-	    <a href="{% url 'list_country' %}" class="btn btn-primary">Odustani</a>
+	    <input type="submit" value="Potvrdi" class="btn-costume-delete text-black">
+	    <button id="backBtn" class="btn-costume text-black">Odustani</button>
 	</form>	
-
+  </form>
+</div>
 {% endblock %}
