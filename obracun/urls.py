@@ -72,7 +72,7 @@ urlpatterns = [
 
     # country annex urls
 
-    path('add_contractannex', views.ContractAnnexAdd.as_view(), name='add_contractannex'),
+    path('add_contractannex/<int:pk>/', views.ContractAnnexAdd.as_view(), name='add_contractannex'),
     # path('list_contract', views.ContractList.as_view(), name='list_contract'),
 
     # report urls

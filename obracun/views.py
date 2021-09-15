@@ -266,23 +266,17 @@ class ContractList(ListView):
 
 
 
-class ContractAnnexAdd(SuccessMessageMixin, CreateView):
+class ContractAnnexAdd(CreateView):
 	model = Contract_annex
-	# fields = ['municipality_name', 'municipality_code', 'country_entity', 'country', 'canton']
 	template_name = 'add_form.html'
 	form_class = ContractAnnexForm
 	success_message = 'Ugovor je uspješno dodat'
 	error_meesage = "Ugovor nije dodat! Pokušajte ponovo!"
 
-	def form_valid(self, form):
-		form.instance.contractid = request.POST.get('id')
-		return super(ContractAnnexAdd, self).form_valid(form)
-
-# def ContractAnnexAdd(request, contractid):
-# 	contract = Contract.objects.all(id=contractid)
-# 	form = ContractAnnexForm(instance=contract)
-	
-
+	def get_initial(self, *args, **kwargs):
+		initial=super().get_initial(**kwargs)
+		initial['contract'] = self.kwargs['pk']
+		return initial
 
 
 # =====//--PDF reports--\\==== 
