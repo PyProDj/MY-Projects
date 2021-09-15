@@ -1,43 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
-#functions 
-
-# def country_entity_list():
-# 	country_entities = CountryEntity.objects.all()
-# 	country_entity_list = [('', '---------')]
-
-# 	for country_entity in country_entities:
-# 		one_country_entity = (country_entity.id, country_entity.entity_name)
-# 		country_entity_list.append(one_country_entity)
-# 	return country_entity_list
-
-# def country_list():
-# 	countries = Country.objects.all()
-# 	country_list = [('', '---------')]
-
-# 	for country in countries:
-# 		one_country = (country.id, country.country_name)
-# 		country_list.append(one_country)
-# 	return country_list
-
-# def canton_list():
-# 	cantones = Canton.objects.all()
-# 	canton_list = [(0, '---------')]
-
-# 	for canton in cantones:
-# 		one_canton = (canton.id, canton.canton_name)
-# 		canton_list.append(one_canton)
-# 	return canton_list
-
-# def municipality_list():
-# 	municipalities = Municipality.objects.all()
-# 	municipality_list = [(0, '---------')]
-
-# 	for municipality in municipalities:
-# 		one_municipality = (municipality.id, municipality.municipality_name)
-# 		municipality_list.append(one_municipality)
-# 	return municipality_list
 
 class Country(models.Model):
 
@@ -146,11 +110,19 @@ class Contract(models.Model):
 	contract_date = models.DateField()
 	start_work_date = models.DateField()
 	end_work_date = models.DateField(null=True, blank=True)
+	# work_time = models.DateTimeField()
 	salary = models.DecimalField(max_digits=10, decimal_places=2)
 	active_status = models.BooleanField(default=True)
+	DisplayField = ['contract_type', 'employee', 'period']
+
+	# @property
+	def period(self):
+		if contract_date != None:
+			period = start_work_date - end_work_date
+		return period
 
 	def __str__(self):
-		return "Ugovor broj: " + self.contract_number + "Radnik: " + str(self.employee)
+		return "Ugovor broj: " + self.contract_number + " Radnik: " + str(self.employee)
 
 	def get_absolute_url(self):
 		return reverse('base')
@@ -158,29 +130,31 @@ class Contract(models.Model):
 class Contract_annex(models.Model):
 
 	contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
-	annex_date = models.DateField()
+	annex_date = models.DateField(default=timezone.now)
 	annex_number = models.CharField(max_length=15)
 	contract_duration = models.ForeignKey(Contract_duration, on_delete=models.SET_NULL, null=True)
 	end_work_date = models.DateField(null=True, blank=True)
 	salary = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
+	def get_absolute_url(self):
+		return reverse('base')
 
 # Obracun plata / plan je sa se u samoj bazi nalazi podatak o ugovorenoj plati
 #porezima i doprinosima sumarno, a onda da se u izvjestajima prikazuje zasebno
 
 class Payroll(models.Model):
 
-	contract = models.IntegerField()
+	contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
 	year = models.DecimalField(max_digits=4, decimal_places=0)
 	payroll_date = models.DateField()
 	payroll_of_date = models.DateField()
 	payroll_to_date = models.DateField()
 	worked_days = models.DecimalField(max_digits=6, decimal_places=2)
-	# salary = models.DecimalField(max_digits=6, decimal_places=2)
+	salary = models.DecimalField(max_digits=6, decimal_places=2)
 	net_salary = models.DecimalField(max_digits=6, decimal_places=2)
-	# gross_salary = models.DecimalField(max_digits=6, decimal_places=2)
+	gross_salary = models.DecimalField(max_digits=6, decimal_places=2)
 	contributions = models.DecimalField(max_digits=6, decimal_places=2)
 	taxe = models.DecimalField(max_digits=6, decimal_places=2)
-	# contributions_health = models.DecimalField(max_digits=6, decimal_places=2)
-	# contributions_unemployment = models.DecimalField(max_digits=6, decimal_places=2)
-	# contributions_child = models.DecimalField(max_digits=6, decimal_places=2)
+	contributions_health = models.DecimalField(max_digits=6, decimal_places=2)
+	contributions_unemployment = models.DecimalField(max_digits=6, decimal_places=2)
+	contributions_child = models.DecimalField(max_digits=6, decimal_places=2)

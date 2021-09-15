@@ -87,7 +87,7 @@ class ContractForm(forms.ModelForm):
 	start_work_date = forms.DateField(label='Datum početka radnog odnosa', widget=forms.DateInput(format='%d.%m.%Y', attrs={"type":"date", "data-date-format":"dd.mm.yyyy", "class":"floater_input form-control", "id":"contract_date", "name":"contract_date"}))
 	end_work_date = forms.DateField(label='Prestanak radnog odnosa', required=False, widget=forms.DateInput(format='%d.%m.%Y', attrs={"type":"date", "data-date-format":"dd.mm.yyyy", "class":"floater_input form-control", "id":"contract_date", "name":"contract_date"}))
 	salary = forms.DecimalField(label='Ugovorena plata prije oporezivanja', max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={'class': 'form-control'}))
-	
+
 
 	class Meta:
 		model = Contract
@@ -96,13 +96,13 @@ class ContractForm(forms.ModelForm):
 
 class ContractAnnexForm(forms.ModelForm):
 
-	contract = forms.ModelChoiceField(label='Tip ugovora', queryset=Contract.objects.all(), widget=forms.Select(attrs={'class': 'form-select'}))
+	contract = forms.ModelChoiceField(label='Tip ugovora', queryset=Contract.objects.all(), widget=forms.Select(attrs={'class': 'form-select', 'disabled': 'disabled'}))
 	annex_date = forms.DateField(label='Datum aneksa', widget=forms.DateInput(format='%d.%m.%Y', attrs={"type":"date", "data-date-format":"dd.mm.yyyy", "class":"floater_input form-control", "id":"contract_date", "name":"contract_date"}))
 	annex_number = forms.CharField(label='Broj aneksa',max_length=15, widget=forms.TextInput(attrs={'class': 'form-control'}))
 	contract_duration = forms.ModelChoiceField(label='Trajanje ugovora', queryset=Contract_duration.objects.all(), widget=forms.Select(attrs={'class': 'form-select'}))
 	end_work_date = forms.DateField(label='Datum isteka ugovora', widget=forms.DateInput(format='%d.%m.%Y', attrs={"type":"date", "data-date-format":"dd.mm.yyyy", "class":"floater_input form-control", "id":"contract_date", "name":"contract_date"}))
 	salary = forms.DecimalField(label='Ugovorena plata prije oporezivanja', max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={'class': 'form-control'}))
-	
+
 
 	class Meta:
 		model = Contract_annex
